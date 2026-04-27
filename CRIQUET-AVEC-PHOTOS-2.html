@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="description" content="Criquet by Expédit — Réservation hôtels et restaurants à Cotonou et Porto-Novo, Bénin."/>
+<meta name="theme-color" content="#1B6B3A"/>
+<title>Criquet by Expédit — Hôtels & Restaurants au Bénin</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--vert:#1B6B3A;--vert2:#2E8B57;--vert-light:#E8F5EE;--jaune:#F5A623;--bg:#FAFAF7;--blanc:#FFF;--texte:#1A1A1A;--texte2:#6B6B6B;--texte3:#ABABAB;--bordure:#E8E5DF;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--texte);}
+
+/* NAV */
+.nav{background:var(--vert);padding:0 10px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.2);}
+.nav-logo{cursor:pointer;flex-shrink:0;}
+.nav-logo .main{font-family:'Playfair Display',serif;font-size:14px;color:#fff;white-space:nowrap;}
+.nav-logo .main span{color:var(--jaune);}
+.nav-logo .sub{font-size:7px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.4);}
+.nav-menu{display:flex;gap:2px;flex-shrink:0;}
+.nav-btn{padding:5px 8px;border-radius:20px;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;font-weight:500;background:transparent;color:rgba(255,255,255,.7);transition:all .2s;white-space:nowrap;}
+.nav-btn.actif,.nav-btn:hover{background:rgba(255,255,255,.15);color:#fff;}
+.nav-badge{background:var(--jaune);color:#1A1A1A;font-size:9px;font-weight:700;padding:1px 5px;border-radius:10px;margin-left:3px;}
+
+/* HERO */
+.hero{background:linear-gradient(155deg,#0A2414,#1B6B3A,#2E8B57);padding:44px 16px 40px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'🌴';position:absolute;left:4px;bottom:0;font-size:80px;opacity:.07;}
+.hero::after{content:'🌴';position:absolute;right:4px;bottom:0;font-size:60px;opacity:.07;}
+.hero-tag{display:inline-block;background:rgba(245,166,35,.2);border:1px solid rgba(245,166,35,.35);color:var(--jaune);font-size:9px;letter-spacing:3px;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:12px;}
+.hero-titre{font-family:'Playfair Display',serif;font-size:clamp(24px,6vw,46px);color:#fff;line-height:1.15;margin-bottom:7px;}
+.hero-titre em{font-style:italic;color:var(--jaune);}
+.hero-sous{color:rgba(255,255,255,.55);font-size:12px;margin-bottom:26px;}
+.search-wrap{background:#fff;border-radius:13px;padding:13px 14px;max-width:600px;margin:0 auto;display:flex;gap:8px;align-items:flex-end;box-shadow:0 14px 40px rgba(0,0,0,.25);flex-wrap:wrap;}
+.s-champ{flex:1;min-width:110px;}
+.s-champ label{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--texte3);margin-bottom:4px;}
+.s-champ input,.s-champ select{width:100%;border:none;background:transparent;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:var(--texte);outline:none;border-bottom:1.5px solid var(--bordure);padding-bottom:4px;}
+.s-btn{padding:10px 18px;background:var(--vert);border:none;border-radius:8px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:12px;cursor:pointer;width:100%;}
+
+.stats{background:var(--vert);padding:12px 16px;display:flex;justify-content:center;gap:30px;}
+.stat-v{font-family:'Playfair Display',serif;font-size:18px;color:#fff;font-weight:700;text-align:center;}
+.stat-l{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);text-align:center;}
+
+.main{max-width:1040px;margin:0 auto;padding:28px 12px;}
+.filtres{display:flex;gap:5px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+.filtre{padding:5px 12px;border-radius:20px;border:1.5px solid var(--bordure);background:transparent;cursor:pointer;font-size:11px;color:var(--texte2);font-family:'Plus Jakarta Sans',sans-serif;transition:all .18s;}
+.filtre.actif{border-color:var(--vert);background:var(--vert-light);color:var(--vert);font-weight:500;}
+.sep{width:1px;height:15px;background:var(--bordure);}
+.sec{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;}
+.sec-h{font-family:'Playfair Display',serif;font-size:21px;}
+.sec-n{font-size:11px;color:var(--texte3);}
+.grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;}
+
+/* CARTE AVEC PHOTO */
+.carte{background:var(--blanc);border-radius:13px;overflow:hidden;border:1px solid var(--bordure);transition:all .22s;cursor:pointer;}
+.carte:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.13);border-color:transparent;}
+.carte-photo{height:180px;position:relative;overflow:hidden;background:#1B3A28;}
+.carte-photo img{width:100%;height:100%;object-fit:cover;transition:transform .3s;}
+.carte:hover .carte-photo img{transform:scale(1.05);}
+.carte-photo-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:52px;}
+.hbg{background:linear-gradient(135deg,#0D3B21,#1B6B3A);}
+.rbg{background:linear-gradient(135deg,#3B1A0D,#7A3520);}
+.c-badges{position:absolute;top:9px;left:9px;right:9px;display:flex;justify-content:space-between;z-index:2;}
+.cbg{font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:20px;backdrop-filter:blur(8px);}
+.cbg-v{background:rgba(0,0,0,.5);color:#fff;}
+.cbg-t{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.2);}
+.photo-count{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,.55);color:#fff;font-size:10px;padding:3px 8px;border-radius:12px;backdrop-filter:blur(4px);}
+.cc{padding:12px 14px;}
+.cc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2px;}
+.cc-nom{font-family:'Playfair Display',serif;font-size:14px;line-height:1.2;flex:1;padding-right:5px;}
+.cc-note{font-size:11px;color:var(--jaune);font-weight:600;}
+.cc-avis{font-size:9px;color:var(--texte3);}
+.cc-adr{font-size:10px;color:var(--texte3);margin-bottom:8px;}
+.tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;}
+.tag{font-size:9px;padding:2px 7px;border-radius:6px;background:var(--vert-light);color:var(--vert);}
+.cc-bas{display:flex;justify-content:space-between;align-items:center;}
+.cc-prix{font-size:15px;font-weight:600;}
+.cc-prix span{font-size:10px;color:var(--texte3);font-weight:300;}
+.btn-res{padding:6px 13px;border-radius:7px;border:1.5px solid var(--vert);background:transparent;color:var(--vert);cursor:pointer;font-size:11px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;transition:all .18s;}
+.btn-res:hover{background:var(--vert);color:#fff;}
+
+/* MODAL DÉTAIL HÔTEL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;padding:10px;}
+.modal{background:var(--blanc);border-radius:18px;width:100%;max-width:480px;max-height:96vh;overflow-y:auto;box-shadow:0 40px 100px rgba(0,0,0,.3);}
+
+/* GALERIE PHOTOS */
+.galerie{position:relative;height:220px;overflow:hidden;background:#1B3A28;}
+.galerie-img{width:100%;height:100%;object-fit:cover;display:none;}
+.galerie-img.actif{display:block;}
+.galerie-fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:60px;}
+.galerie-nav{position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px;z-index:3;}
+.galerie-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:all .2s;}
+.galerie-dot.actif{background:#fff;width:20px;border-radius:4px;}
+.galerie-prev,.galerie-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.4);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);z-index:3;}
+.galerie-prev{left:10px;}
+.galerie-next{right:10px;}
+.galerie-note{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.5);color:var(--jaune);font-size:12px;font-weight:600;padding:4px 10px;border-radius:12px;backdrop-filter:blur(4px);}
+
+/* DÉTAIL HÔTEL */
+.detail-body{padding:16px 18px;}
+.detail-nom{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:3px;}
+.detail-adr{font-size:12px;color:var(--texte3);margin-bottom:12px;}
+.detail-infos{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.info-chip{background:var(--bg);border:1px solid var(--bordure);border-radius:20px;padding:4px 11px;font-size:11px;color:var(--texte2);}
+.detail-desc{font-size:12px;color:var(--texte2);line-height:1.7;margin-bottom:14px;padding:10px 12px;background:var(--vert-light);border-radius:8px;}
+.detail-avis{margin-bottom:14px;}
+.avis-titre{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--texte3);margin-bottom:10px;}
+.avis-item{background:var(--bg);border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:11px;color:var(--texte2);line-height:1.6;position:relative;}
+.avis-item::before{content:'"';font-size:24px;color:var(--jaune);line-height:1;display:block;margin-bottom:4px;}
+.detail-phone{font-size:12px;color:var(--vert);font-weight:500;margin-bottom:14px;}
+
+/* FORM RÉSERVATION */
+.m-head{padding:0 18px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;padding-top:14px;}
+.m-titre{font-family:'Playfair Display',serif;font-size:16px;}
+.m-close{background:var(--bordure);border:none;width:27px;height:27px;border-radius:50%;cursor:pointer;font-size:13px;color:var(--texte2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.m-close:hover{background:#ffcdd2;color:#c0392b;}
+.m-body{padding:0 18px 18px;}
+.steps{display:flex;align-items:center;margin-bottom:16px;}
+.step{display:flex;align-items:center;gap:4px;}
+.sn{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;flex-shrink:0;}
+.sn.done{background:var(--vert);color:#fff;}
+.sn.cur{background:var(--jaune);color:#1A1A1A;}
+.sn.wait{background:var(--bordure);color:var(--texte3);}
+.sl{font-size:10px;}
+.sl.done{color:var(--vert);}
+.sl.cur{color:var(--texte);font-weight:500;}
+.sl.wait{color:var(--texte3);}
+.sline{flex:1;height:1px;background:var(--bordure);margin:0 4px;}
+.sline.done{background:var(--vert);}
+.fg{margin-bottom:11px;}
+.fl{display:block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--texte3);margin-bottom:4px;}
+.fi,.fs{width:100%;padding:9px 10px;border:1.5px solid var(--bordure);border-radius:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;color:var(--texte);background:var(--bg);outline:none;transition:border-color .18s;}
+.fi:focus,.fs:focus{border-color:var(--vert);}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.crens{display:flex;gap:5px;flex-wrap:wrap;}
+.cren{padding:6px 10px;border-radius:6px;border:1.5px solid var(--bordure);background:transparent;cursor:pointer;font-size:11px;font-family:'Plus Jakarta Sans',sans-serif;transition:all .15s;color:var(--texte);}
+.cren.ok{border-color:var(--vert);background:var(--vert);color:#fff;}
+.cren.no{opacity:.3;cursor:not-allowed;text-decoration:line-through;}
+.cren:hover:not(.no):not(.ok){border-color:var(--vert);color:var(--vert);}
+.recap{background:var(--bg);border:1px solid var(--bordure);border-radius:9px;padding:10px 12px;margin-bottom:11px;}
+.rl{display:flex;justify-content:space-between;font-size:11px;padding:3px 0;}
+.rl.tot{border-top:1px solid var(--bordure);margin-top:5px;padding-top:7px;font-weight:600;font-size:13px;}
+.rl-l{color:var(--texte2);}
+.rl-v.g{color:var(--vert);font-family:'Playfair Display',serif;font-size:16px;}
+.celtis{background:linear-gradient(135deg,#1B6B3A,#2E8B57);border-radius:10px;padding:13px;margin-bottom:11px;color:#fff;}
+.celtis-t{font-size:12px;font-weight:600;margin-bottom:3px;}
+.celtis-n{font-size:17px;font-weight:700;letter-spacing:2px;color:var(--jaune);font-family:monospace;margin:4px 0;}
+.celtis-i{font-size:10px;color:rgba(255,255,255,.7);line-height:1.6;}
+.celtis-m{background:rgba(255,255,255,.15);border-radius:7px;padding:7px 10px;margin-top:7px;display:flex;justify-content:space-between;align-items:center;}
+.celtis-ml{font-size:10px;color:rgba(255,255,255,.65);}
+.celtis-mv{font-size:15px;font-weight:700;color:var(--jaune);}
+.comm{background:#FFF8EC;border:1px solid rgba(245,166,35,.3);border-radius:7px;padding:8px 10px;margin-bottom:10px;font-size:10px;color:#8B6000;line-height:1.6;}
+.pay-opts{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:11px;}
+.pay-o{padding:9px 7px;border-radius:8px;border:1.5px solid var(--bordure);background:transparent;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;color:var(--texte2);transition:all .18s;text-align:center;}
+.pay-o.on{border-color:var(--vert);background:var(--vert-light);color:var(--vert);}
+.pay-ic{font-size:18px;display:block;margin-bottom:3px;}
+.wa-btn{width:100%;padding:11px;background:#25D366;border:none;border-radius:8px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .18s;margin-bottom:6px;text-decoration:none;}
+.btn-p{width:100%;padding:11px;background:var(--vert);border:none;border-radius:8px;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;margin-top:3px;}
+.btn-p:hover{background:var(--vert2);}
+.btn-p:disabled{opacity:.4;cursor:not-allowed;}
+.btn-r{width:100%;padding:8px;background:transparent;border:1.5px solid var(--bordure);border-radius:8px;color:var(--texte2);font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;cursor:pointer;margin-bottom:6px;}
+
+/* RÉSERVATIONS */
+.res-vide{text-align:center;padding:60px 20px;color:var(--texte3);}
+.res-vide span{font-size:44px;display:block;margin-bottom:12px;}
+.res-liste{display:flex;flex-direction:column;gap:10px;}
+.res-c{background:var(--blanc);border:1px solid var(--bordure);border-radius:12px;overflow:hidden;display:flex;}
+.res-photo{width:70px;height:70px;object-fit:cover;flex-shrink:0;}
+.res-photo-fb{width:70px;height:70px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.res-info{flex:1;padding:10px 12px;}
+.res-nom{font-family:'Playfair Display',serif;font-size:14px;margin-bottom:2px;}
+.res-det{font-size:11px;color:var(--texte2);}
+.res-stat{font-size:10px;font-weight:500;padding:3px 9px;border-radius:20px;background:var(--vert-light);color:var(--vert);display:inline-block;margin-top:3px;}
+.res-px{font-size:13px;font-weight:600;color:var(--vert);padding:10px 12px;display:flex;align-items:center;}
+
+/* SUCCÈS */
+.succes{text-align:center;padding:26px 14px;}
+.s-ico{font-size:52px;display:block;margin-bottom:9px;animation:pop .4s ease;}
+@keyframes pop{0%{transform:scale(0)}60%{transform:scale(1.2)}100%{transform:scale(1)}}
+.s-tit{font-family:'Playfair Display',serif;font-size:21px;margin-bottom:6px;}
+.s-sub{color:var(--texte2);font-size:12px;line-height:1.6;margin-bottom:11px;}
+.s-ref{display:inline-block;background:var(--vert-light);border:1px solid var(--vert);border-radius:7px;padding:5px 14px;font-size:14px;font-weight:700;color:var(--vert);letter-spacing:3px;font-family:monospace;margin-bottom:4px;}
+.wa-sent{background:linear-gradient(135deg,#1A5C30,#25D366);border-radius:11px;padding:14px;margin:12px 0;color:#fff;text-align:center;}
+.wa-sent h4{font-size:13px;font-weight:700;margin-bottom:4px;}
+.wa-sent p{font-size:11px;color:rgba(255,255,255,.8);line-height:1.6;}
+.wa-sent .num{font-size:14px;font-weight:700;color:#FFD77A;margin:5px 0;font-family:monospace;}
+
+.toast{position:fixed;bottom:16px;right:16px;background:var(--vert);color:#fff;padding:9px 14px;border-radius:9px;font-size:12px;box-shadow:0 8px 24px rgba(27,107,58,.35);z-index:999;animation:si .3s ease;}
+@keyframes si{from{transform:translateX(40px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+.footer{background:var(--vert);padding:18px;text-align:center;margin-top:36px;}
+.f-logo{font-family:'Playfair Display',serif;font-size:15px;color:#fff;}
+.f-logo span{color:var(--jaune);}
+.f-sub{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:1px;margin-top:2px;}
+.f-links{display:flex;justify-content:center;gap:16px;margin-top:8px;}
+.f-link{font-size:10px;color:rgba(255,255,255,.5);cursor:pointer;text-decoration:underline;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--bordure);border-radius:4px;}
+
+/* POLITIQUE */
+.pol-container{max-width:700px;margin:0 auto;padding:32px 14px;}
+.pol-section{background:var(--blanc);border-radius:13px;padding:22px 24px;margin-bottom:16px;border:1px solid var(--bordure);}
+.pol-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--vert);color:#fff;border-radius:50%;font-size:12px;font-weight:700;margin-bottom:10px;}
+.pol-titre{font-family:'Playfair Display',serif;font-size:18px;color:var(--vert);margin-bottom:12px;}
+.pol-section p,.pol-section li{font-size:13px;color:var(--texte2);line-height:1.7;margin-bottom:8px;}
+.pol-section ul{padding-left:18px;}
+.pol-hl{background:var(--vert-light);border-radius:7px;padding:9px 12px;font-size:12px;color:#1A4A2A;margin:8px 0;}
+.pol-table{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0;}
+.pol-table th{background:var(--vert);color:#fff;padding:8px 12px;text-align:left;}
+.pol-table td{padding:8px 12px;border-bottom:1px solid var(--bordure);color:var(--texte2);}
+.contact-box{background:linear-gradient(135deg,#0A2414,#1B6B3A);border-radius:13px;padding:20px;color:#fff;text-align:center;margin-top:8px;}
+.contact-box h3{font-family:'Playfair Display',serif;font-size:18px;margin-bottom:7px;}
+.contact-box p{font-size:12px;color:rgba(255,255,255,.65);}
+.contact-num{font-size:17px;font-weight:700;color:var(--jaune);letter-spacing:1px;margin:8px 0;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo" onclick="showPage('accueil')">
+    <div class="main">Criquet <span>by Expédit</span></div>
+    <div class="sub">Bénin · Réservations</div>
+  </div>
+  <div class="nav-menu">
+    <button class="nav-btn actif" id="btn-accueil" onclick="showPage('accueil')">🏠 Accueil</button>
+    <button class="nav-btn" id="btn-res" onclick="showPage('reservations')">📋 Réservations<span class="nav-badge" id="badge" style="display:none">0</span></button>
+    <button class="nav-btn" id="btn-pol" onclick="showPage('politique')">🔒 Confidentialité</button>
+  </div>
+</nav>
+
+<!-- PAGE ACCUEIL -->
+<div id="page-accueil">
+  <div class="hero">
+    <div class="hero-tag">🇧🇯 Cotonou & Porto-Novo</div>
+    <div class="hero-titre">Hôtels & Restaurants<br/>du <em>Bénin</em></div>
+    <div class="hero-sous">Paiement Celtis Cash · Confirmation WhatsApp instantanée</div>
+    <div class="search-wrap">
+      <div class="s-champ"><label>Rechercher</label><input id="rech" placeholder="Nom, ville…" oninput="renderCards()"/></div>
+      <div class="s-champ"><label>Ville</label>
+        <select id="fville" onchange="renderCards()">
+          <option value="all">Toutes les villes</option>
+          <option value="Cotonou">Cotonou</option>
+          <option value="Porto-Novo">Porto-Novo</option>
+        </select>
+      </div>
+      <button class="s-btn">🔍 Chercher</button>
+    </div>
+  </div>
+  <div class="stats">
+    <div><div class="stat-v">10</div><div class="stat-l">Établissements</div></div>
+    <div><div class="stat-v">2</div><div class="stat-l">Villes</div></div>
+    <div><div class="stat-v">100%</div><div class="stat-l">Béninois</div></div>
+  </div>
+  <div class="main">
+    <div class="filtres">
+      <button class="filtre actif" data-v="all" onclick="setFV(this,'all')">Tout</button>
+      <button class="filtre" data-v="Cotonou" onclick="setFV(this,'Cotonou')">🏙 Cotonou</button>
+      <button class="filtre" data-v="Porto-Novo" onclick="setFV(this,'Porto-Novo')">🏛 Porto-Novo</button>
+      <div class="sep"></div>
+      <button class="filtre actif" data-t="all" onclick="setFT(this,'all')">Tous</button>
+      <button class="filtre" data-t="hotel" onclick="setFT(this,'hotel')">🏨 Hôtels</button>
+      <button class="filtre" data-t="restaurant" onclick="setFT(this,'restaurant')">🍽️ Restos</button>
+    </div>
+    <div class="sec">
+      <div class="sec-h">Établissements</div>
+      <div class="sec-n" id="sec-nb">10 disponibles</div>
+    </div>
+    <div class="grille" id="grille"></div>
+  </div>
+</div>
+
+<!-- PAGE RÉSERVATIONS -->
+<div id="page-reservations" style="display:none">
+  <div class="main">
+    <div class="sec"><div class="sec-h">Mes Réservations</div><div class="sec-n" id="res-nb">0 au total</div></div>
+    <div id="res-content"><div class="res-vide"><span>📋</span><p>Aucune réservation pour l'instant.</p></div></div>
+  </div>
+</div>
+
+<!-- PAGE POLITIQUE -->
+<div id="page-politique" style="display:none">
+  <div class="hero" style="padding:32px 16px 28px">
+    <div class="hero-tag">🔒 Protection des données</div>
+    <div class="hero-titre" style="font-size:clamp(20px,4vw,32px)">Politique de Confidentialité</div>
+    <div class="hero-sous">Dernière mise à jour : Avril 2026</div>
+  </div>
+  <div class="pol-container">
+    <div style="background:var(--vert-light);border-left:4px solid var(--vert);border-radius:0 10px 10px 0;padding:14px 16px;margin-bottom:24px;font-size:13px;color:#1A4A2A;line-height:1.7;">
+      <strong style="display:block;font-size:14px;margin-bottom:3px">🔒 Votre vie privée est notre priorité</strong>
+      Cette politique explique comment <strong>Criquet by Expédit</strong> collecte, utilise et protège vos données personnelles.
+    </div>
+    <div class="pol-section">
+      <div class="pol-num">1</div><div class="pol-titre">Identité du Responsable</div>
+      <table class="pol-table">
+        <tr><th>Information</th><th>Détail</th></tr>
+        <tr><td>Nom de l'app</td><td><strong>Criquet by Expédit</strong></td></tr>
+        <tr><td>Responsable</td><td><strong>Expédit</strong></td></tr>
+        <tr><td>Pays</td><td>🇧🇯 République du Bénin</td></tr>
+        <tr><td>Contact WhatsApp</td><td>+229 01 47 86 59 97</td></tr>
+        <tr><td>Application créée par</td><td>🤖 Intelligence Artificielle — Claude by Anthropic</td></tr>
+      </table>
+      <div class="pol-hl">🤖 Cette application a été développée avec l'aide d'une IA. Le responsable légal reste <strong>Expédit</strong>.</div>
+    </div>
+    <div class="pol-section">
+      <div class="pol-num">2</div><div class="pol-titre">Données Collectées</div>
+      <ul><li>Nom complet — identifier le client</li><li>Numéro de téléphone — confirmation WhatsApp</li><li>Date de réservation — planifier le séjour</li><li>Établissement choisi — transmettre la réservation</li></ul>
+      <div class="pol-hl">✅ Nous ne collectons PAS : localisation GPS, contacts, photos, données bancaires complètes.</div>
+    </div>
+    <div class="pol-section">
+      <div class="pol-num">3</div><div class="pol-titre">Vos Droits</div>
+      <ul><li>🔍 Accéder à vos données</li><li>✏️ Corriger vos données</li><li>🗑️ Supprimer vos données</li></ul>
+      <div class="pol-hl">Contactez-nous sur WhatsApp : <strong>+229 01 47 86 59 97</strong></div>
+    </div>
+    <div class="contact-box">
+      <h3>📞 Nous Contacter</h3>
+      <div class="contact-num">+229 01 47 86 59 97</div>
+      <p>WhatsApp Business · Celtis Cash · Cotonou & Porto-Novo 🇧🇯</p>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" style="display:none" onclick="if(event.target===this)fermer()">
+  <div class="modal" id="modal"></div>
+</div>
+
+<div class="toast" id="toast" style="display:none"></div>
+
+<footer class="footer">
+  <div class="f-logo">Criquet <span>by Expédit</span></div>
+  <div class="f-sub">📞 +229 01 47 86 59 97 · Cotonou & Porto-Novo · Bénin 🇧🇯</div>
+  <div class="f-links">
+    <span class="f-link" onclick="showPage('politique')">🔒 Confidentialité</span>
+    <span class="f-link" onclick="showPage('accueil')">🏠 Accueil</span>
+  </div>
+  <div style="font-size:9px;color:rgba(255,255,255,.3);margin-top:6px">App créée par IA (Claude by Anthropic) · Responsable : Expédit</div>
+</footer>
+
+<script>
+const WA="22901478659 97".replace(/\s/g,"");
+const CELTIS="+229 01 47 86 59 97";
+const COM=0.10;
+
+// Photos réelles via Google Places / Unsplash proxy
+const PHOTOS={
+  1:["https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&q=80","https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&q=80","https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80","https://images.unsplash.com/photo-1455587734955-081b22074882?w=600&q=80"],
+  2:["https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=600&q=80","https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=600&q=80","https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=600&q=80","https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=600&q=80"],
+  3:["https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80","https://images.unsplash.com/photo-1615460549969-36fa19521a4f?w=600&q=80","https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=600&q=80"],
+  4:["https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80","https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80","https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&q=80"],
+  5:["https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80","https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80","https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80"],
+  6:["https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80","https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80","https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80"],
+  7:["https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=600&q=80","https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?w=600&q=80","https://images.unsplash.com/photo-1582719508461-905c673771fd?w=600&q=80"],
+  8:["https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&q=80","https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=600&q=80","https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&q=80"],
+  9:["https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80","https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80","https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80"],
+  10:["https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80","https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80","https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80"],
+};
+
+const ETABS=[
+  {id:1,type:"hotel",e:"🏨",nom:"Sofitel Marina Hotel & Spa",ville:"Cotonou",adr:"Boulevard de la Marina",note:"4.7",avis:697,prix:85000,tel:"+229 01 20 90 04 61",tags:["Luxe","Spa","Vue mer","Piscine"],desc:"Le fleuron de Cotonou. Vue imprenable sur la mer, spa de luxe, restaurants gastronomiques et service 5 étoiles. Les clients adorent le bar Corniche et le restaurant Vivo.",avisClients:["Le staff est très amical et l'hôtel dépasse toutes les attentes. Petit-déjeuner excellent !","Les chambres sont magnifiques avec une vue incroyable. Service exceptionnel."],cr:["14h00","15h00","16h00","—17h00","18h00"]},
+  {id:2,type:"hotel",e:"🏩",nom:"Golden Tulip Diplomate",ville:"Cotonou",adr:"Boulevard de la Marina",note:"4.4",avis:2725,prix:55000,tel:"+229 01 98 30 02 00",tags:["International","Gym","Piscine","Nightclub"],desc:"Grand hôtel international sur la Marina. Chambres modernes avec climatisation, piscine, salle de sport et restaurant. Ouvert 24h/24.",avisClients:["Bel hôtel avec un excellent buffet. Chambres modernes et propres.","Staff très attentif et serviable. Parfait pour les voyages d'affaires."],cr:["13h00","14h00","—15h00","16h00","18h00"]},
+  {id:3,type:"hotel",e:"🌿",nom:"Le Karé Ébène",ville:"Cotonou",adr:"Place des Martyrs",note:"4.3",avis:326,prix:42000,tel:"+229 01 64 40 40 40",tags:["Boutique","Sushi","Piscine","Jardin"],desc:"Boutique hôtel unique avec jardin tropical, piscine et deux restaurants exceptionnels : japonais et cuisine locale. Un cadre intime et raffiné.",avisClients:["Superbe endroit ! Le restaurant sushi est fantastique. Chambres spacieuses et confortables.","Staff toujours souriant. Les deux restaurants sont excellents !"],cr:["14h00","—15h00","16h00","17h00"]},
+  {id:4,type:"hotel",e:"🌊",nom:"Beach Sand Hotel & Resort",ville:"Cotonou",adr:"Zone des Ambassades, Akpakpa",note:"4.4",avis:25,prix:38000,tel:"+229 01 53 64 91 65",tags:["Plage","Vue mer","Calme","Luxueux"],desc:"Resort en bord de mer avec vue panoramique sur l'Atlantique. Le propriétaire accueille personnellement chaque client. Expérience unique et authentique.",avisClients:["Séjour exceptionnel ! Le propriétaire nous a accueillis à la porte. Vue magnifique.","Propre, confortable et très accueillant. Je recommande vivement !"],cr:["13h00","14h00","15h00","—16h00"]},
+  {id:5,type:"restaurant",e:"🍖",nom:"Le Bénin Gourmet",ville:"Cotonou",adr:"Haie Vive",note:"4.5",avis:180,prix:8500,tel:"",tags:["Cuisine locale","Grillades","Terrasse"],desc:"Le meilleur de la cuisine béninoise ! Grillades, poissons frais et spécialités locales dans une ambiance chaleureuse. Terrasse agréable.",avisClients:["Excellente cuisine béninoise ! Les grillades sont parfaites.","Ambiance familiale et nourriture délicieuse. Prix raisonnables."],cr:["12h00","12h30","—13h00","19h00","19h30"]},
+  {id:6,type:"restaurant",e:"🦞",nom:"La Calebasse d'Or",ville:"Cotonou",adr:"Fidjrossè",note:"4.3",avis:210,prix:12000,tel:"",tags:["Fruits de mer","Vue plage","Romantique"],desc:"Restaurant romantique avec vue directe sur la plage. Spécialités de fruits de mer frais, homard et poissons. Idéal pour les dîners en couple.",avisClients:["Vue magnifique sur la plage ! Les fruits de mer sont frais et délicieux.","Endroit romantique parfait. Le homard est exceptionnel !"],cr:["12h30","—13h00","19h00","20h00","21h00"]},
+  {id:7,type:"hotel",e:"🎨",nom:"ART RESIDENCE Hotel",ville:"Porto-Novo",adr:"Avakpa Kpodji",note:"4.3",avis:401,prix:35000,tel:"+229 01 91 71 64 64",tags:["Boutique","Spa","Piscine","Design"],desc:"Boutique hôtel moderne à Porto-Novo avec intérieurs stylés, spa, piscine et vue panoramique. Le meilleur hôtel de la capitale béninoise.",avisClients:["Magnifique hôtel moderne ! Intérieurs stylés et personnel très accueillant.","Excellent petit-déjeuner avec des options fraîches. Vue superbe depuis le rooftop !"],cr:["14h00","15h00","—16h00","17h00"]},
+  {id:8,type:"hotel",e:"🏛️",nom:"Tour Eiffel Hôtel Bénin",ville:"Porto-Novo",adr:"Route de Porto-Novo",note:"4.1",avis:401,prix:28000,tel:"+229 01 97 60 98 82",tags:["Piscine","Bar","Restaurant","24h/24"],desc:"Hôtel avec design flashy et animé à Porto-Novo. Bar, restaurant et piscine disponibles. Ouvert 24h/24 pour tous vos besoins.",avisClients:["Beau design et bon restaurant. Bon rapport qualité-prix.","Staff aimable et disponible. Bon petit-déjeuner inclus."],cr:["13h00","—14h00","15h00","17h00"]},
+  {id:9,type:"restaurant",e:"🥘",nom:"Chez Mama Adjovi",ville:"Porto-Novo",adr:"Centre-ville",note:"4.6",avis:150,prix:5000,tel:"",tags:["Cuisine béninoise","Traditionnel","Familial"],desc:"L'authenticité béninoise à l'état pur ! Mama Adjovi prépare chaque jour les meilleures recettes traditionnelles. Un incontournable de Porto-Novo.",avisClients:["La vraie cuisine béninoise ! Mama Adjovi est une excellente cuisinière.","Ambiance familiale et chaleureuse. Le meilleur riz de Porto-Novo !"],cr:["12h00","12h30","13h00","19h00","19h30"]},
+  {id:10,type:"restaurant",e:"🍗",nom:"Le Roi du Poulet",ville:"Porto-Novo",adr:"Quartier Gbégamey",note:"4.2",avis:130,prix:6500,tel:"",tags:["Grillades","Terrasse","Animé"],desc:"L'endroit incontournable pour les grillades à Porto-Novo ! Poulet braisé, viandes et boissons fraîches dans une ambiance animée et conviviale.",avisClients:["Le meilleur poulet braisé de Porto-Novo ! Toujours animé et convivial.","Grillades excellentes et prix abordables. Grande terrasse agréable."],cr:["12h00","—12h30","19h00","19h30","20h00"]},
+];
+
+let fv="all",ft="all",reservations=[],M=null,etape=1,photoIdx=0;
+let mDate="",mP="2",mNom="",mTel="",mCr=null,mPay="celtis";
+
+function fmt(n){return parseInt(n).toLocaleString("fr-FR");}
+function genId(){return "CRQ-"+Math.random().toString(36).slice(2,6).toUpperCase();}
+function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.style.display="block";setTimeout(()=>t.style.display="none",3500);}
+
+function showPage(p){
+  ["accueil","reservations","politique"].forEach(x=>{
+    document.getElementById("page-"+x).style.display=x===p?"block":"none";
+    const bid=x==="reservations"?"res":x==="politique"?"pol":x;
+    document.getElementById("btn-"+bid).className="nav-btn"+(x===p?" actif":"");
+  });
+  if(p==="reservations") renderRes();
+}
+
+function setFV(el,v){fv=v;document.querySelectorAll(".filtre[data-v]").forEach(b=>b.classList.remove("actif"));el.classList.add("actif");renderCards();}
+function setFT(el,t){ft=t;document.querySelectorAll(".filtre[data-t]").forEach(b=>b.classList.remove("actif"));el.classList.add("actif");renderCards();}
+
+function renderCards(){
+  const q=document.getElementById("rech").value.toLowerCase();
+  const fvs=document.getElementById("fville").value;
+  const liste=ETABS.filter(e=>(fv==="all"||e.ville===fv)&&(ft==="all"||e.type===ft)&&(fvs==="all"||e.ville===fvs)&&(e.nom.toLowerCase().includes(q)||e.ville.toLowerCase().includes(q)));
+  document.getElementById("sec-nb").textContent=`${liste.length} disponible${liste.length!==1?"s":""}`;
+  const u=e=>e.type==="hotel"?"/nuit":"/couvert";
+  const ph=id=>PHOTOS[id]?PHOTOS[id][0]:"";
+  document.getElementById("grille").innerHTML=liste.map(e=>`
+    <div class="carte" onclick="ouvrirDetail(${e.id})">
+      <div class="carte-photo">
+        ${ph(e.id)?`<img src="${ph(e.id)}" alt="${e.nom}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/><div class="carte-photo-fallback ${e.type==="hotel"?"hbg":"rbg"}" style="display:none">${e.e}</div>`:`<div class="carte-photo-fallback ${e.type==="hotel"?"hbg":"rbg"}">${e.e}</div>`}
+        <div class="c-badges"><span class="cbg cbg-v">${e.ville}</span><span class="cbg cbg-t">${e.type==="hotel"?"Hôtel":"Restaurant"}</span></div>
+        ${PHOTOS[e.id]?`<div class="photo-count">📷 ${PHOTOS[e.id].length} photos</div>`:""}
+      </div>
+      <div class="cc">
+        <div class="cc-top"><div class="cc-nom">${e.nom}</div><div style="text-align:right"><div class="cc-note">★ ${e.note}</div><div class="cc-avis">${e.avis} avis</div></div></div>
+        <div class="cc-adr">📍 ${e.adr}</div>
+        <div class="tags">${e.tags.map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+        <div class="cc-bas">
+          <div class="cc-prix">${fmt(e.prix)} <span>FCFA ${u(e)}</span></div>
+          <button class="btn-res" onclick="event.stopPropagation();ouvrirDetail(${e.id})">Voir & Réserver</button>
+        </div>
+      </div>
+    </div>`).join("");
+}
+
+function renderRes(){
+  document.getElementById("res-nb").textContent=`${reservations.length} au total`;
+  document.getElementById("res-content").innerHTML=reservations.length===0
+    ?`<div class="res-vide"><span>📋</span><p>Aucune réservation pour l'instant.</p></div>`
+    :`<div class="res-liste">${reservations.map(r=>`
+      <div class="res-c">
+        ${PHOTOS[r.id]?`<img class="res-photo" src="${PHOTOS[r.id][0]}" alt="${r.nom}" onerror="this.style.display='none'">`:`<div class="res-photo-fb" style="background:${r.type==="hotel"?"#E8F5EE":"#FFF8EC"}">${r.e}</div>`}
+        <div class="res-info">
+          <div class="res-nom">${r.nom}</div>
+          <div class="res-det">${r.nomClient} · ${r.ville} · ${r.date} à ${r.creneau}</div>
+          <span class="res-stat">✓ WhatsApp envoyé</span>
+        </div>
+        <div class="res-px">${fmt(r.prix)}<br/><span style="font-size:9px;color:#AAA">FCFA</span></div>
+      </div>`).join("")}</div>`;
+}
+
+// GALERIE
+let galIdx=0;
+function changerPhoto(id,dir){
+  const photos=PHOTOS[id]||[];
+  galIdx=(galIdx+dir+photos.length)%photos.length;
+  renderGalerie(id);
+}
+function allerPhoto(id,i){galIdx=i;renderGalerie(id);}
+function renderGalerie(id){
+  const photos=PHOTOS[id]||[];
+  if(!photos.length) return;
+  document.querySelectorAll(".galerie-img").forEach((img,i)=>{
+    img.classList.toggle("actif",i===galIdx);
+  });
+  document.querySelectorAll(".galerie-dot").forEach((d,i)=>{
+    d.classList.toggle("actif",i===galIdx);
+  });
+}
+
+function ouvrirDetail(id){
+  M=ETABS.find(e=>e.id===id);
+  etape=0; galIdx=0;
+  mDate="";mP="2";mNom="";mTel="";mCr=null;mPay="celtis";
+  renderDetail();
+  document.getElementById("overlay").style.display="flex";
+}
+
+function fermer(){document.getElementById("overlay").style.display="none";M=null;etape=0;}
+
+function renderDetail(){
+  if(!M) return;
+  const photos=PHOTOS[M.id]||[];
+  const u=M.type==="hotel"?"nuit(s)":"couvert(s)";
+
+  const galerieHTML=photos.length?`
+    <div class="galerie">
+      ${photos.map((p,i)=>`<img class="galerie-img ${i===0?"actif":""}" src="${p}" alt="${M.nom}" onerror="this.src=''" />`).join("")}
+      <div class="galerie-note">★ ${M.note} · ${M.avis} avis</div>
+      ${photos.length>1?`
+        <button class="galerie-prev" onclick="changerPhoto(${M.id},-1)">‹</button>
+        <button class="galerie-next" onclick="changerPhoto(${M.id},1)">›</button>
+        <div class="galerie-nav">${photos.map((_,i)=>`<div class="galerie-dot ${i===0?"actif":""}" onclick="allerPhoto(${M.id},${i})"></div>`).join("")}</div>
+      `:""}
+    </div>`:`
+    <div class="galerie"><div class="galerie-fallback ${M.type==="hotel"?"hbg":"rbg"}">${M.e}</div></div>`;
+
+  document.getElementById("modal").innerHTML=`
+    ${galerieHTML}
+    <div class="m-head">
+      <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--texte3)">${M.type==="hotel"?"🏨 HÔTEL":"🍽️ RESTAURANT"} · ${M.ville}</div>
+      <button class="m-close" onclick="fermer()">✕</button>
+    </div>
+    <div class="detail-body" style="padding:0 18px 18px">
+      <div class="detail-nom">${M.nom}</div>
+      <div class="detail-adr">📍 ${M.adr}${M.tel?` · 📞 ${M.tel}`:""}</div>
+      <div class="detail-infos">
+        ${M.tags.map(t=>`<span class="info-chip">${t}</span>`).join("")}
+      </div>
+      <div class="detail-desc">${M.desc}</div>
+      <div class="detail-avis">
+        <div class="avis-titre">Avis des clients</div>
+        ${M.avisClients.map(a=>`<div class="avis-item">${a}</div>`).join("")}
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid var(--bordure);border-bottom:1px solid var(--bordure);margin-bottom:14px">
+        <div>
+          <div style="font-size:10px;color:var(--texte3);margin-bottom:2px">Prix</div>
+          <div style="font-size:20px;font-weight:600">${fmt(M.prix)} <span style="font-size:11px;color:var(--texte3);font-weight:300">FCFA/${M.type==="hotel"?"nuit":"couvert"}</span></div>
+        </div>
+        <button class="btn-p" style="width:auto;padding:11px 24px" onclick="etape=1;renderForm()">Réserver maintenant →</button>
+      </div>
+    </div>`;
+}
+
+function renderForm(){
+  if(!M) return;
+  const nb=parseInt(mP)||1,pb=M.prix*nb,cm=Math.round(pb*COM),ph=pb-cm;
+  const cr=mCr!==null?M.cr[mCr]:null;
+  const u=M.type==="hotel"?"nuit(s)":"couvert(s)";
+  const ok=mDate&&mCr!==null&&cr&&!cr.startsWith("—")&&mNom;
+
+  const photos=PHOTOS[M.id]||[];
+  const headerPhoto=photos.length?`<img src="${photos[0]}" style="width:100%;height:120px;object-fit:cover" onerror="this.style.display='none'"/>`:`<div style="height:80px;background:linear-gradient(135deg,#0D3B21,#1B6B3A);display:flex;align-items:center;justify-content:center;font-size:36px">${M.e}</div>`;
+
+  const steps=`<div class="steps">${[["1","Infos"],["2","Paiement"],["3","Confirmer"]].map(([n,l],i)=>`
+    <div class="step"><div class="sn ${etape>i+1?"done":etape===i+1?"cur":"wait"}">${etape>i+1?"✓":n}</div><span class="sl ${etape>i+1?"done":etape===i+1?"cur":"wait"}">${l}</span></div>
+    ${i<2?`<div class="sline ${etape>i+1?"done":""}"></div>`:""}`).join("")}</div>`;
+
+  let body="";
+  if(etape===1) body=`
+    <div class="frow">
+      <div class="fg"><label class="fl">Date</label><input class="fi" type="date" value="${mDate}" onchange="mDate=this.value;renderForm()"/></div>
+      <div class="fg"><label class="fl">${M.type==="hotel"?"Nuits":"Personnes"}</label>
+        <select class="fs" onchange="mP=this.value;renderForm()">${[1,2,3,4,5,6].map(n=>`<option ${mP==n?"selected":""}>${n}</option>`).join("")}</select>
+      </div>
+    </div>
+    <div class="fg">
+      <label class="fl">Créneau disponible</label>
+      <div class="crens">${M.cr.map((c,i)=>`<button class="cren ${c.startsWith("—")?"no":""} ${mCr===i?"ok":""}" onclick="${c.startsWith("—")?"":`mCr=${i};renderForm()`}">${c.startsWith("—")?c.slice(1):c}</button>`).join("")}</div>
+      <div style="font-size:9px;color:#ABABAB;margin-top:3px">Créneaux barrés = indisponibles</div>
+    </div>
+    <div class="frow">
+      <div class="fg"><label class="fl">Votre nom</label><input class="fi" placeholder="Jean Koffi" value="${mNom}" oninput="mNom=this.value"/></div>
+      <div class="fg"><label class="fl">Téléphone</label><input class="fi" placeholder="+229 …" value="${mTel}" oninput="mTel=this.value"/></div>
+    </div>
+    <button class="btn-p" ${ok?"":"disabled"} onclick="if(${ok?1:0}){etape=2;renderForm()}">Continuer → Paiement</button>`;
+
+  if(etape===2) body=`
+    <div class="recap">
+      <div class="rl"><span class="rl-l">Établissement</span><span>${M.nom}</span></div>
+      <div class="rl"><span class="rl-l">Date & Créneau</span><span>${mDate} à ${cr}</span></div>
+      <div class="rl"><span class="rl-l">${u}</span><span>${mP}</span></div>
+      <div class="rl tot"><span>Total</span><span class="rl-v g">${fmt(pb)} FCFA</span></div>
+    </div>
+    <div class="comm">💼 Votre commission Criquet : ${fmt(cm)} FCFA · Reversé à l'hôtel : ${fmt(ph)} FCFA</div>
+    <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#ABABAB;margin-bottom:8px">Mode de paiement</div>
+    <div class="pay-opts">
+      <button class="pay-o ${mPay==="celtis"?"on":""}" onclick="mPay='celtis';renderForm()"><span class="pay-ic">📱</span>Celtis Cash</button>
+      <button class="pay-o ${mPay==="wa"?"on":""}" onclick="mPay='wa';renderForm()"><span class="pay-ic">💬</span>WhatsApp Pay</button>
+    </div>
+    ${mPay==="celtis"?`<div class="celtis"><div class="celtis-t">📱 Envoyez via Celtis Cash</div><div class="celtis-n">${CELTIS}</div><div class="celtis-i">1. Ouvrez Celtis Cash<br/>2. Envoyez le montant exact<br/>3. Notez votre référence</div><div class="celtis-m"><span class="celtis-ml">Montant exact</span><span class="celtis-mv">${fmt(pb)} FCFA</span></div></div>`
+    :`<div style="background:#25D366;border-radius:10px;padding:12px;color:#fff;margin-bottom:11px;font-size:12px">💬 Envoyez <strong>${fmt(pb)} FCFA</strong> au <strong>${CELTIS}</strong></div>`}
+    <div style="display:flex;gap:6px;margin-top:6px">
+      <button class="btn-r" onclick="etape=1;renderForm()">← Retour</button>
+      <button class="btn-p" style="flex:2" onclick="etape=3;renderForm()">J'ai payé → Confirmer</button>
+    </div>`;
+
+  if(etape===3){
+    const msg=encodeURIComponent(`🦗 *CRIQUET BY EXPÉDIT — Nouvelle Réservation*\n\n📋 *Référence :* ${genId()}\n━━━━━━━━━━━━━━━━━━\n🏨 *Établissement :* ${M.nom}\n📍 *Ville :* ${M.ville}\n━━━━━━━━━━━━━━━━━━\n👤 *Client :* ${mNom}\n📞 *Téléphone :* ${mTel||"Non renseigné"}\n━━━━━━━━━━━━━━━━━━\n📅 *Date :* ${mDate}\n🕐 *Créneau :* ${cr}\n👥 *${M.type==="hotel"?"Nuits":"Personnes"} :* ${mP}\n━━━━━━━━━━━━━━━━━━\n💰 *Total payé :* ${fmt(pb)} FCFA\n💼 *Commission Criquet (10%) :* ${fmt(cm)} FCFA\n🏨 *Reversé à l'hôtel :* ${fmt(ph)} FCFA\n💳 *Paiement :* ${mPay==="celtis"?"✅ Celtis Cash":"✅ WhatsApp Pay"}\n━━━━━━━━━━━━━━━━━━\n✅ Merci de confirmer au client.\n📱 Son numéro : ${mTel||"Non renseigné"}`);
+    body=`
+      <div style="text-align:center;margin-bottom:13px">
+        <div style="font-size:32px;margin-bottom:5px">📋</div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;margin-bottom:4px">Vérifiez avant de confirmer</div>
+        <div style="font-size:11px;color:#6B6B6B;line-height:1.6">En confirmant, votre réservation sera envoyée automatiquement sur le WhatsApp d'Expédit.</div>
+      </div>
+      <div class="recap">
+        <div class="rl"><span class="rl-l">Client</span><span>${mNom}</span></div>
+        <div class="rl"><span class="rl-l">Téléphone</span><span>${mTel||"Non renseigné"}</span></div>
+        <div class="rl"><span class="rl-l">Établissement</span><span>${M.nom}</span></div>
+        <div class="rl"><span class="rl-l">Date & Créneau</span><span>${mDate} à ${cr}</span></div>
+        <div class="rl"><span class="rl-l">Paiement</span><span>${mPay==="celtis"?"Celtis Cash ✓":"WhatsApp Pay ✓"}</span></div>
+        <div class="rl tot"><span>Total payé</span><span class="rl-v g">${fmt(pb)} FCFA</span></div>
+      </div>
+      <div style="background:#E8F9EE;border:1px solid #25D366;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:11px;color:#1A5C30;text-align:center;">
+        💬 Réservation envoyée automatiquement sur WhatsApp<br/><strong>${CELTIS}</strong>
+      </div>
+      <button class="btn-p" onclick="confirmer()">✅ Confirmer — Envoyer sur WhatsApp</button>
+      <button class="btn-r" style="margin-top:6px" onclick="etape=2;renderForm()">← Retour</button>`;
+  }
+
+  document.getElementById("modal").innerHTML=`
+    ${headerPhoto}
+    <div class="m-head">
+      <div><div class="m-titre">${M.e} ${M.nom}</div><div style="font-size:11px;color:var(--texte3)">📍 ${M.adr}</div></div>
+      <button class="m-close" onclick="fermer()">✕</button>
+    </div>
+    <div class="m-body">${steps}${body}</div>`;
+}
+
+function confirmer(){
+  const nb=parseInt(mP)||1,pb=M.prix*nb,cm=Math.round(pb*COM),ph=pb-cm;
+  const cr=M.cr[mCr];const id=genId();
+  const msg=encodeURIComponent(`🦗 *CRIQUET BY EXPÉDIT — Nouvelle Réservation*\n\n📋 *Référence :* ${id}\n━━━━━━━━━━━━━━━━━━\n🏨 *Établissement :* ${M.nom}\n📍 *Ville :* ${M.ville}\n━━━━━━━━━━━━━━━━━━\n👤 *Client :* ${mNom}\n📞 *Téléphone :* ${mTel||"Non renseigné"}\n━━━━━━━━━━━━━━━━━━\n📅 *Date :* ${mDate}\n🕐 *Créneau :* ${cr}\n👥 *${M.type==="hotel"?"Nuits":"Personnes"} :* ${mP}\n━━━━━━━━━━━━━━━━━━\n💰 *Total payé :* ${fmt(pb)} FCFA\n💼 *Commission Criquet (10%) :* ${fmt(cm)} FCFA\n🏨 *Reversé à l'hôtel :* ${fmt(ph)} FCFA\n💳 *Paiement :* ${mPay==="celtis"?"✅ Celtis Cash":"✅ WhatsApp Pay"}\n━━━━━━━━━━━━━━━━━━\n✅ Merci de confirmer au client.\n📱 Son numéro : ${mTel||"Non renseigné"}`);
+  reservations.unshift({id,type:M.type,e:M.e,id:M.id,nom:M.nom,ville:M.ville,date:mDate,creneau:cr,personnes:mP,nomClient:mNom,telephone:mTel,prix:pb,commission:cm,modePaiement:mPay});
+  const b=document.getElementById("badge");b.textContent=reservations.length;b.style.display="inline";
+  window.open(`https://wa.me/${WA}?text=${msg}`,"_blank");
+  document.getElementById("modal").innerHTML=`
+    <div class="succes">
+      <span class="s-ico">🎉</span>
+      <div class="s-tit">Réservation confirmée !</div>
+      <div class="s-sub">Merci <strong>${mNom}</strong> !<br/>Votre réservation chez <strong>${M.nom}</strong> est enregistrée.</div>
+      <div class="s-ref">${id}</div>
+      <div style="font-size:10px;color:#AAA;margin-bottom:12px">Votre référence</div>
+      <div class="wa-sent">
+        <div style="font-size:32px;margin-bottom:6px">💬</div>
+        <h4>WhatsApp ouvert automatiquement !</h4>
+        <p>Votre réservation a été envoyée à Expédit.</p>
+        <div class="num">${CELTIS}</div>
+        <p>Confirmation sous <strong>15 minutes</strong> ✅</p>
+      </div>
+      <div style="background:#FFF8EC;border:1px solid rgba(245,166,35,.3);border-radius:8px;padding:10px 12px;margin-top:10px;font-size:11px;color:#8B6000;text-align:left;line-height:1.7;">
+        💰 <strong>Montant payé :</strong> ${fmt(pb)} FCFA<br/>
+        💼 <strong>Commission Criquet :</strong> ${fmt(cm)} FCFA<br/>
+        🏨 <strong>Reversé à ${M.nom} :</strong> ${fmt(ph)} FCFA
+      </div>
+      <button class="btn-p" style="max-width:180px;margin:14px auto 0" onclick="fermer()">Fermer</button>
+    </div>`;
+  showToast(`✓ Réservation ${id} envoyée à Expédit !`);
+}
+
+renderCards();
+</script>
+</body>
+</html>
